@@ -30,5 +30,4 @@ object SensorFilter {
         }
         return retval
     }
-
 }

@@ -9,25 +9,26 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import com.example.dvoitekh.fitnesstracker.step_detection.StepDetector
-import com.example.dvoitekh.fitnesstracker.step_detection.StepListener
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity(), SensorEventListener, StepListener {
+class MainActivity : AppCompatActivity(), SensorEventListener {
     private var activityRunning: Boolean = false
 
     private var numSteps: Long = 0
 
-    private val simpleStepDetector: StepDetector = StepDetector()
+    private lateinit var simpleStepDetector: StepDetector
 
     private val sensorManager: SensorManager by lazy {
         getSystemService(Context.SENSOR_SERVICE) as SensorManager
     }
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        simpleStepDetector.registerListener(this)
+        simpleStepDetector = StepDetector { timeNs: Long ->
+            numSteps++
+            stepsTxt.text = numSteps.toString()
+        }
     }
 
     override fun onResume() {
@@ -52,17 +53,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener, StepListener {
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
-        if (activityRunning) {
-            simpleStepDetector.updateAccel(event!!.timestamp, event.values[0],
+        if (activityRunning && event != null) {
+            simpleStepDetector.updateAccel(event.timestamp, event.values[0],
                     event.values[1], event.values[2])
         }
     }
 
     override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
-    }
-
-    override fun step(timeNs: Long) {
-        numSteps++
-        stepsTxt.text =  numSteps.toString()
     }
 }

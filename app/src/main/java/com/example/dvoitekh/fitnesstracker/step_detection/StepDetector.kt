@@ -1,6 +1,6 @@
 package com.example.dvoitekh.fitnesstracker.step_detection
 
-class StepDetector {
+class StepDetector(private var stepCallback: (timeNs: Long) -> Unit) {
 
     private var accelRingCounter = 0
     private val accelRingX = FloatArray(ACCEL_RING_SIZE)
@@ -10,12 +10,6 @@ class StepDetector {
     private val velRing = FloatArray(VEL_RING_SIZE)
     private var lastStepTimeNs: Long = 0
     private var oldVelocityEstimate = 0f
-
-    private var listener: StepListener? = null
-
-    fun registerListener(listener: StepListener) {
-        this.listener = listener
-    }
 
 
     fun updateAccel(timeNs: Long, x: Float, y: Float, z: Float) {
@@ -49,7 +43,7 @@ class StepDetector {
 
         if (velocityEstimate > STEP_THRESHOLD && oldVelocityEstimate <= STEP_THRESHOLD
                 && timeNs - lastStepTimeNs > STEP_DELAY_NS) {
-            listener!!.step(timeNs)
+            stepCallback(timeNs)
             lastStepTimeNs = timeNs
         }
         oldVelocityEstimate = velocityEstimate
@@ -61,7 +55,7 @@ class StepDetector {
         private val VEL_RING_SIZE = 10
 
         // change this threshold according to your sensitivity preferences
-        private val STEP_THRESHOLD = 20f
+        private val STEP_THRESHOLD = 15f
 
         private val STEP_DELAY_NS = 250000000
     }
