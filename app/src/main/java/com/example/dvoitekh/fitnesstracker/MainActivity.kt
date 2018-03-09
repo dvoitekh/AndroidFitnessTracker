@@ -12,6 +12,13 @@ import com.example.dvoitekh.fitnesstracker.step_detection.StepDetector
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
+
+    companion object {
+        private val PERSON_STEP_SIZE = 0.8f // meters
+        private val PERSON_WEIGHT = 80_000f // grams
+        private val CAL_PER_GRAM_PER_METER = 0.000_000_5 // kilocalories per gram per meter
+    }
+
     private var activityRunning: Boolean = false
 
     private var numSteps: Long = 0
@@ -25,9 +32,19 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        simpleStepDetector = StepDetector { timeNs: Long ->
+
+        stepsTxt.text = 0.toString()
+        distanceTxt.text = "%.2f".format(.0)
+        caloriesTxt.text = "%.2f".format(.0)
+
+        simpleStepDetector = StepDetector { _: Long ->
             numSteps++
+            val distance = numSteps * PERSON_STEP_SIZE
+            val kiloCalories = CAL_PER_GRAM_PER_METER * PERSON_WEIGHT * distance
+
             stepsTxt.text = numSteps.toString()
+            distanceTxt.text = "%.2f".format(distance)
+            caloriesTxt.text = "%.2f".format(kiloCalories)
         }
     }
 
