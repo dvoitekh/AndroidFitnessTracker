@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">FitnessTracker</string>
+    <string name="title_activity_navigation">NavigationActivity</string>
+    <string name="title_today">Today</string>
+    <string name="title_stats">Stats</string>
+    <string name="title_edit">Edit</string>
 </resources>

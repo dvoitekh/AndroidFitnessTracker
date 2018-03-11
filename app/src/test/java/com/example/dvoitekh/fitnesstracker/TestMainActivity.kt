@@ -2,9 +2,9 @@ package com.example.dvoitekh.fitnesstracker
 
 import org.junit.Test
 
-class TestMainActivity {
+class TestNavigationActivity {
     @Test
-    fun test_main_activity() {
+    fun test_navigation_activity() {
         assert(true)
     }
 }
