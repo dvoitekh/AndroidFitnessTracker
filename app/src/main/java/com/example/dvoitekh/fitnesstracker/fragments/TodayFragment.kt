@@ -1,4 +1,4 @@
-package com.example.dvoitekh.fitnesstracker
+package com.example.dvoitekh.fitnesstracker.fragments
 
 import android.hardware.SensorEventListener
 import android.os.Bundle
@@ -11,6 +11,7 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorManager
 import android.widget.Toast
+import com.example.dvoitekh.fitnesstracker.R
 import com.example.dvoitekh.fitnesstracker.step_detection.StepDetector
 import kotlinx.android.synthetic.main.fragment_today.*
 
@@ -40,6 +41,24 @@ class TodayFragment : Fragment(), SensorEventListener {
         super.onCreate(savedInstanceState)
 
         sensorManager = activity.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+    }
+
+    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        stepsTxt.text = 0.toString()
+        distanceTxt.text = "%.2f".format(.0)
+        caloriesTxt.text = "%.2f".format(.0)
+
+        simpleStepDetector = StepDetector { _: Long ->
+            numSteps++
+            val distance = numSteps * PERSON_STEP_SIZE
+            val kiloCalories = CAL_PER_GRAM_PER_METER * PERSON_WEIGHT * distance
+
+            stepsTxt.text = numSteps.toString()
+            distanceTxt.text = "%.2f".format(distance)
+            caloriesTxt.text = "%.2f".format(kiloCalories)
+        }
     }
 
     override fun onResume() {
@@ -76,23 +95,5 @@ class TodayFragment : Fragment(), SensorEventListener {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater!!.inflate(R.layout.fragment_today, container, false)
-    }
-
-    override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        stepsTxt.text = 0.toString()
-        distanceTxt.text = "%.2f".format(.0)
-        caloriesTxt.text = "%.2f".format(.0)
-
-        simpleStepDetector = StepDetector { _: Long ->
-            numSteps++
-            val distance = numSteps * TodayFragment.PERSON_STEP_SIZE
-            val kiloCalories = TodayFragment.CAL_PER_GRAM_PER_METER * TodayFragment.PERSON_WEIGHT * distance
-
-            stepsTxt.text = numSteps.toString()
-            distanceTxt.text = "%.2f".format(distance)
-            caloriesTxt.text = "%.2f".format(kiloCalories)
-        }
     }
 }

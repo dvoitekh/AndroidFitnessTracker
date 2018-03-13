@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:padding="10dp"
+    android:weightSum="10">
 
     <LinearLayout
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:weightSum="4">
+        android:layout_width="match_parent">
 
         <LinearLayout
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_width="match_parent">
             <TextView
-                android:id="@+id/labelStepSize"
-                android:layout_height="wrap_content"
+                android:id="@+id/dayDate"
                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
@@ -26,32 +28,20 @@
                 android:textSize="18sp"
                 android:layout_weight="1"
                 android:textAlignment="center"
-                android:text="Step size (in m)" />
-
-            <EditText
-                android:id="@+id/editStepSize"
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="numberDecimal"
-                android:textAlignment="center"
-                android:text="" />
-
+                android:text="Date"
+                android:textColor="@color/colorPrimary" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_width="match_parent">
+            android:layout_width="match_parent"
+            android:weightSum="4">
             <TextView
-                android:id="@+id/labelWeight"
+                android:id="@+id/dayId"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_width="0dp"
+                android:padding="5dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
@@ -60,32 +50,13 @@
                 android:textSize="18sp"
                 android:layout_weight="1"
                 android:textAlignment="center"
-                android:text="Weight (in kg)" />
-
-            <EditText
-                android:id="@+id/editWeight"
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="numberDecimal"
-                android:textAlignment="center"
-                android:text="" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_width="match_parent">
+                android:text="ID"
+                android:textColor="@color/colorPrimary" />
             <TextView
-                android:id="@+id/labelCalPerGPerM"
+                android:id="@+id/daySteps"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_width="0dp"
+                android:padding="5dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
@@ -94,22 +65,39 @@
                 android:textSize="18sp"
                 android:layout_weight="1"
                 android:textAlignment="center"
-                android:text="Cal per g per m" />
-
-            <EditText
-                android:id="@+id/editCalPerGPerM"
+                android:text="Steps"
+                android:textColor="@color/colorPrimary" />
+            <TextView
+                android:id="@+id/dayCalories"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_width="0dp"
+                android:padding="5dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
+                android:fontFamily="@font/muli_bold"
+                android:textSize="18sp"
                 android:layout_weight="1"
-                android:ems="10"
-                android:inputType="numberDecimal"
                 android:textAlignment="center"
-                android:text="" />
-
+                android:text="Calories"
+                android:textColor="@color/colorPrimary" />
+            <TextView
+                android:id="@+id/dayDistance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/muli_bold"
+                android:textSize="18sp"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:text="Distance"
+                android:textColor="@color/colorPrimary" />
         </LinearLayout>
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+
+</LinearLayout>
