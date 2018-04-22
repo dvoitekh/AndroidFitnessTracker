@@ -9,9 +9,21 @@ import android.widget.AdapterView
 import android.widget.Toast
 import com.example.dvoitekh.fitnesstracker.R
 import com.example.dvoitekh.fitnesstracker.adapters.DaysAdapter
+import com.example.dvoitekh.fitnesstracker.helpers.MyDatabaseOpenHelper
 import com.example.dvoitekh.fitnesstracker.models.Day
 import java.util.*
 import kotlinx.android.synthetic.main.fragment_stats.*
+import org.jetbrains.anko.db.classParser
+import org.jetbrains.anko.db.insert
+import org.jetbrains.anko.db.select
+
+import java.util.Random
+
+val random = Random()
+
+fun rand(from: Int, to: Int) : Int {
+    return random.nextInt(to - from) + from
+}
 
 
 class StatsFragment : Fragment() {
@@ -25,15 +37,24 @@ class StatsFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        listDays.add(Day(1, Date(), 10, 10.0.toFloat(), 10.0.toFloat()))
-        listDays.add(Day(2, Date(), 10, 10.0.toFloat(), 10.0.toFloat()))
-        listDays.add(Day(3, Date(), 10, 10.0.toFloat(), 10.0.toFloat()))
-        listDays.add(Day(4, Date(), 10, 10.0.toFloat(), 10.0.toFloat()))
-        listDays.add(Day(5, Date(), 10, 10.0.toFloat(), 10.0.toFloat()))
-        listDays.add(Day(6, Date(), 10, 10.0.toFloat(), 10.0.toFloat()))
-        listDays.add(Day(7, Date(), 10, 10.0.toFloat(), 10.0.toFloat()))
-        listDays.add(Day(8, Date(), 10, 10.0.toFloat(), 10.0.toFloat()))
-        listDays.add(Day(9, Date(), 10, 10.0.toFloat(), 10.0.toFloat()))
+        val database = MyDatabaseOpenHelper.getInstance(context)
+
+        database.use {
+            delete("Day", null, null)
+        }
+
+        database.use {
+            insert("Day",
+                    "date" to System.currentTimeMillis(),
+                    "steps" to rand(1, 1000),
+                    "calories" to rand(1, 1000).toFloat(),
+                    "distance" to rand(1, 1000).toFloat()
+            )
+        }
+
+        listDays = database.use {
+            select("Day").parseList(classParser<Day>())
+        } as ArrayList<Day>
 
         var daysAdapter = DaysAdapter(activity, listDays)
         lvDays.adapter = daysAdapter
