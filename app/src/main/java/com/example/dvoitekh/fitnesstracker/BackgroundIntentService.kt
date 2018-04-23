@@ -9,7 +9,12 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.IBinder
 import android.util.Log
+import com.example.dvoitekh.fitnesstracker.helpers.MyDatabaseOpenHelper
+import com.example.dvoitekh.fitnesstracker.models.Day
 import com.example.dvoitekh.fitnesstracker.step_detection.StepDetector
+import org.jetbrains.anko.db.classParser
+import org.jetbrains.anko.db.select
+import org.jetbrains.anko.db.update
 
 
 class BackgroundIntentService : Service(), SensorEventListener {
@@ -20,6 +25,7 @@ class BackgroundIntentService : Service(), SensorEventListener {
     private var numSteps: Long = 0
     private lateinit var simpleStepDetector: StepDetector
     private lateinit var sensorManager: SensorManager
+    private lateinit var database: MyDatabaseOpenHelper
 
     override fun onBind(intent: Intent): IBinder? {
         return null
@@ -28,6 +34,14 @@ class BackgroundIntentService : Service(), SensorEventListener {
     override fun onCreate() {
         super.onCreate()
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        database = MyDatabaseOpenHelper.getInstance(this)
+
+        val today = database.use {
+            select("Day")
+                    .whereArgs("id = {dayId}", "dayId" to 15)
+                    .parseList(classParser<Day>())[0]
+        }
+        numSteps = today.steps
     }
 
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
@@ -46,6 +60,12 @@ class BackgroundIntentService : Service(), SensorEventListener {
             numSteps++
             val distance = numSteps * PERSON_STEP_SIZE
             val kiloCalories = CAL_PER_GRAM_PER_METER * PERSON_WEIGHT * distance
+
+            database.use {
+                update("Day", "steps" to numSteps, "distance" to distance, "calories" to kiloCalories)
+                        .whereArgs("id = {dayId}", "dayId" to 15).exec()
+            }
+
             Log.d("MyService", numSteps.toString() + distance.toString() + kiloCalories.toString())
         }
         return Service.START_STICKY

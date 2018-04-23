@@ -39,18 +39,18 @@ class StatsFragment : Fragment() {
 
         val database = MyDatabaseOpenHelper.getInstance(context)
 
-        database.use {
-            delete("Day", null, null)
-        }
-
-        database.use {
-            insert("Day",
-                    "date" to System.currentTimeMillis(),
-                    "steps" to rand(1, 1000),
-                    "calories" to rand(1, 1000).toFloat(),
-                    "distance" to rand(1, 1000).toFloat()
-            )
-        }
+//        database.use {
+//            delete("Day", null, null)
+//        }
+//
+//        database.use {
+//            insert("Day",
+//                    "date" to System.currentTimeMillis(),
+//                    "steps" to rand(1, 1000),
+//                    "calories" to rand(1, 1000).toFloat(),
+//                    "distance" to rand(1, 1000).toFloat()
+//            )
+//        }
 
         listDays = database.use {
             select("Day").parseList(classParser<Day>())
