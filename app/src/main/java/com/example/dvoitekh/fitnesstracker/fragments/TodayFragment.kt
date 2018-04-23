@@ -39,17 +39,26 @@ class TodayFragment : Fragment() {
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val today = database.use {
-            select("Day")
-                    .whereArgs("id = {dayId}", "dayId" to 15)
-                    .parseList(classParser<Day>())[0]
+        val t = object : Thread() {
+            override fun run() = try {
+                while (!isInterrupted) {
+                    Thread.sleep(500)
+                    activity.runOnUiThread({
+                        val today = database.use {
+                            select("Day")
+                                    .whereArgs("id = {dayId}", "dayId" to 15)
+                                    .parseList(classParser<Day>())[0]
+                        }
+                        stepsTxt?.text = today.steps.toString()
+                        distanceTxt?.text = "%.2f".format(today.distance)
+                        caloriesTxt?.text = "%.2f".format(today.calories)
+                    })
+                }
+            } catch (e: InterruptedException) {
+            }
         }
-
-        stepsTxt.text = today.steps.toString()
-        distanceTxt.text = "%.2f".format(today.distance)
-        caloriesTxt.text = "%.2f".format(today.calories)
+        t.start()
     }
-
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater!!.inflate(R.layout.fragment_today, container, false)
