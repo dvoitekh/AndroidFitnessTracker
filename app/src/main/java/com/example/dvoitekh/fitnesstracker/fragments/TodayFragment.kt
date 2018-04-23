@@ -7,10 +7,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.content.Context
+import android.content.Intent
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorManager
 import android.widget.Toast
+import com.example.dvoitekh.fitnesstracker.BackgroundIntentService
 import com.example.dvoitekh.fitnesstracker.R
 import com.example.dvoitekh.fitnesstracker.step_detection.StepDetector
 import kotlinx.android.synthetic.main.fragment_today.*
@@ -41,6 +43,8 @@ class TodayFragment : Fragment(), SensorEventListener {
         super.onCreate(savedInstanceState)
 
         sensorManager = activity.getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        val serviceIntent = Intent(context, BackgroundIntentService::class.java)
+        context.startService(serviceIntent)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
