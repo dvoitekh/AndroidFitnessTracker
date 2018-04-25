@@ -1,5 +1,6 @@
 package com.example.dvoitekh.fitnesstracker
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
@@ -36,18 +37,21 @@ class NavigationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_navigation)
 
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        val serviceIntent = Intent(this, BackgroundIntentService::class.java)
+        startService(serviceIntent)
 
-        val fragment = TodayFragment.Companion.newInstance()
-        addFragment(fragment)
+//        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
+//        val fragment = TodayFragment.Companion.newInstance()
+//        addFragment(fragment)
     }
 
     private fun addFragment(fragment: Fragment) {
-        supportFragmentManager
-                .beginTransaction()
-                .setCustomAnimations(R.anim.design_bottom_sheet_slide_in, R.anim.design_bottom_sheet_slide_out)
-                .replace(R.id.content, fragment, fragment.javaClass.getSimpleName())
-                .addToBackStack(fragment.javaClass.getSimpleName())
-                .commit()
+//        supportFragmentManager
+//                .beginTransaction()
+//                .setCustomAnimations(R.anim.design_bottom_sheet_slide_in, R.anim.design_bottom_sheet_slide_out)
+//                .replace(R.id.content, fragment, fragment.javaClass.getSimpleName())
+//                .addToBackStack(fragment.javaClass.getSimpleName())
+//                .commit()
     }
 }
