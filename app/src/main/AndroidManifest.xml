@@ -4,7 +4,6 @@
 
     <uses-feature android:name="android.hardware.sensor.accelerometer" />
 
-    <!--<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />-->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
@@ -15,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".NavigationActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,18 +23,8 @@
             </intent-filter>
         </activity>
 
-        <!--<receiver-->
-            <!--android:enabled="true"-->
-            <!--android:name="com.example.dvoitekh.fitnesstracker.BroadcastReceiverOnBootComplete"-->
-            <!--android:permission="android.permission.RECEIVE_BOOT_COMPLETED">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.BOOT_COMPLETED" />-->
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-            <!--</intent-filter>-->
-        <!--</receiver>-->
-
         <service
-            android:name="com.example.dvoitekh.fitnesstracker.BackgroundIntentService"
+            android:name=".BackgroundIntentService"
             android:enabled="true"
             android:exported="true" />
 

@@ -5,8 +5,6 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.content.Intent
-import com.example.dvoitekh.fitnesstracker.BackgroundIntentService
 import com.example.dvoitekh.fitnesstracker.R
 import com.example.dvoitekh.fitnesstracker.helpers.MyDatabaseOpenHelper
 import com.example.dvoitekh.fitnesstracker.models.Day
@@ -29,10 +27,6 @@ class TodayFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val serviceIntent = Intent(context, BackgroundIntentService::class.java)
-        context.startService(serviceIntent)
-
         database = MyDatabaseOpenHelper.getInstance(context)
     }
 
@@ -43,7 +37,7 @@ class TodayFragment : Fragment() {
             override fun run() = try {
                 while (!isInterrupted) {
                     Thread.sleep(500)
-                    activity.runOnUiThread({
+                    activity?.runOnUiThread({
                         val today = database.use {
                             select("Day")
                                     .whereArgs("id = {dayId}", "dayId" to 15)
@@ -52,9 +46,10 @@ class TodayFragment : Fragment() {
                         stepsTxt?.text = today.steps.toString()
                         distanceTxt?.text = "%.2f".format(today.distance)
                         caloriesTxt?.text = "%.2f".format(today.calories)
+                        locationTxt?.text = "Longitude: " + today.longitude + "\n" + "Latitude: " + today.latitude + "\n" + "Address: " + today.address
                     })
                 }
-            } catch (e: InterruptedException) {
+            } catch (e: Exception) {
             }
         }
         t.start()
