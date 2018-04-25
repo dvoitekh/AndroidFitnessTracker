@@ -6,11 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.dvoitekh.fitnesstracker.R
+import com.example.dvoitekh.fitnesstracker.getOrCreateToday
 import com.example.dvoitekh.fitnesstracker.helpers.MyDatabaseOpenHelper
-import com.example.dvoitekh.fitnesstracker.models.Day
 import kotlinx.android.synthetic.main.fragment_today.*
-import org.jetbrains.anko.db.classParser
-import org.jetbrains.anko.db.select
 
 
 class TodayFragment : Fragment() {
@@ -38,11 +36,7 @@ class TodayFragment : Fragment() {
                 while (!isInterrupted) {
                     Thread.sleep(500)
                     activity?.runOnUiThread({
-                        val today = database.use {
-                            select("Day")
-                                    .whereArgs("id = {dayId}", "dayId" to 15)
-                                    .parseList(classParser<Day>())[0]
-                        }
+                        val today = getOrCreateToday(database)
                         stepsTxt?.text = today.steps.toString()
                         distanceTxt?.text = "%.2f".format(today.distance)
                         caloriesTxt?.text = "%.2f".format(today.calories)

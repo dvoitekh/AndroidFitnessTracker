@@ -11,13 +11,10 @@ import android.hardware.SensorManager
 import android.location.*
 import android.os.Bundle
 import android.os.IBinder
-import android.util.Log
 import android.widget.Toast
 import com.example.dvoitekh.fitnesstracker.helpers.MyDatabaseOpenHelper
 import com.example.dvoitekh.fitnesstracker.models.Day
 import com.example.dvoitekh.fitnesstracker.step_detection.StepDetector
-import org.jetbrains.anko.db.classParser
-import org.jetbrains.anko.db.select
 import org.jetbrains.anko.db.update
 import java.io.IOException
 import java.util.*
@@ -41,11 +38,7 @@ class BackgroundIntentService : Service(), SensorEventListener, LocationListener
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         database = MyDatabaseOpenHelper.getInstance(this)
 
-        today = database.use {
-            select("Day")
-                    .whereArgs("id = {dayId}", "dayId" to 15)
-                    .parseList(classParser<Day>())[0]
-        }
+        today = getOrCreateToday(database)
         numSteps = today.steps
     }
 
@@ -69,7 +62,7 @@ class BackgroundIntentService : Service(), SensorEventListener, LocationListener
 
             database.use {
                 update("Day", "steps" to numSteps, "distance" to distance, "calories" to kiloCalories)
-                        .whereArgs("id = {dayId}", "dayId" to 15).exec()
+                        .whereArgs("id = {dayId}", "dayId" to today.id).exec()
             }
         }
 
@@ -117,7 +110,7 @@ class BackgroundIntentService : Service(), SensorEventListener, LocationListener
 
         database.use {
             update("Day", "longitude" to longitude, "latitude" to latitude, "address" to address)
-                    .whereArgs("id = {dayId}", "dayId" to 15).exec()
+                    .whereArgs("id = {dayId}", "dayId" to today.id).exec()
         }
     }
 

@@ -39,24 +39,11 @@ class StatsFragment : Fragment() {
 
         val database = MyDatabaseOpenHelper.getInstance(context)
 
-//        database.use {
-//            delete("Day", null, null)
-//        }
-//
-//        database.use {
-//            insert("Day",
-//                    "date" to System.currentTimeMillis(),
-//                    "steps" to rand(1, 1000),
-//                    "calories" to rand(1, 1000).toFloat(),
-//                    "distance" to rand(1, 1000).toFloat()
-//            )
-//        }
-
         listDays = database.use {
             select("Day").parseList(classParser<Day>())
         } as ArrayList<Day>
 
-        var daysAdapter = DaysAdapter(activity, listDays)
+        val daysAdapter = DaysAdapter(activity, listDays)
         lvDays.adapter = daysAdapter
         lvDays.onItemClickListener = AdapterView.OnItemClickListener { adapterView, view, position, id ->
             Toast.makeText(activity, "Click on " + listDays[position].id, Toast.LENGTH_SHORT).show()
