@@ -36,22 +36,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:weightSum="4">
-            <TextView
-                android:id="@+id/dayId"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/muli_bold"
-                android:textSize="18sp"
-                android:layout_weight="1"
-                android:textAlignment="center"
-                android:text="ID"
-                android:textColor="@color/colorPrimary" />
+            android:weightSum="3">
             <TextView
                 android:id="@+id/daySteps"
                 android:layout_width="wrap_content"
@@ -68,21 +53,6 @@
                 android:text="Steps"
                 android:textColor="@color/colorPrimary" />
             <TextView
-                android:id="@+id/dayCalories"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="5dp"
-                android:layout_marginBottom="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/muli_bold"
-                android:textSize="18sp"
-                android:layout_weight="1"
-                android:textAlignment="center"
-                android:text="Calories"
-                android:textColor="@color/colorPrimary" />
-            <TextView
                 android:id="@+id/dayDistance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -96,6 +66,21 @@
                 android:layout_weight="1"
                 android:textAlignment="center"
                 android:text="Distance"
+                android:textColor="@color/colorPrimary" />
+            <TextView
+                android:id="@+id/dayCalories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/muli_bold"
+                android:textSize="18sp"
+                android:layout_weight="1"
+                android:textAlignment="center"
+                android:text="Calories"
                 android:textColor="@color/colorPrimary" />
         </LinearLayout>
     </LinearLayout>

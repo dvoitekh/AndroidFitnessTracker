@@ -4,6 +4,7 @@ import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import org.jetbrains.anko.db.*
 
+
 class MyDatabaseOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "FitnessTrackerDB", null, 3) {
     companion object {
         private var instance: MyDatabaseOpenHelper? = null
@@ -35,12 +36,11 @@ class MyDatabaseOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "Fitness
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        if (oldVersion == 1 && newVersion == 2) {
-            from1to2(db)
-        } else if (oldVersion == 1 && newVersion == 3) {
-            from1to3(db)
-        } else if (oldVersion == 2 && newVersion == 3) {
-            from2to3(db)
+        for (i in oldVersion until newVersion) {
+            when (i) {
+                1 -> from1to2(db)
+                2 -> from2to3(db)
+            }
         }
     }
 
@@ -49,20 +49,6 @@ class MyDatabaseOpenHelper(ctx: Context) : ManagedSQLiteOpenHelper(ctx, "Fitness
             db.execSQL("ALTER TABLE Day ADD COLUMN longitude REAL DEFAULT 0.0")
             db.execSQL("ALTER TABLE Day ADD COLUMN latitude REAL DEFAULT 0.0")
             db.execSQL("ALTER TABLE Day ADD COLUMN address TEXT DEFAULT ''")
-        }
-    }
-
-    private fun from1to3(db: SQLiteDatabase) {
-        db.transaction {
-            db.execSQL("ALTER TABLE Day ADD COLUMN longitude REAL DEFAULT 0.0")
-            db.execSQL("ALTER TABLE Day ADD COLUMN latitude REAL DEFAULT 0.0")
-            db.execSQL("ALTER TABLE Day ADD COLUMN address TEXT DEFAULT ''")
-
-            db.createTable("Settings", true,
-                    "id" to SqlType.create("INTEGER PRIMARY KEY AUTOINCREMENT"),
-                    "step_size" to REAL,
-                    "weight" to REAL,
-                    "kcal_per_kg_per_m" to REAL)
         }
     }
 

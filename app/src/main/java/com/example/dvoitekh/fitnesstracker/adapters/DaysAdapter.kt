@@ -36,7 +36,6 @@ class DaysAdapter(val context: Context, val daysList: ArrayList<Day>) : BaseAdap
             vh = view.tag as ViewHolder
         }
 
-        vh.id.text = daysList[position].id.toString()
         vh.date.text = toSimpleString(daysList[position].date)
         vh.steps.text = daysList[position].steps.toString()
         vh.calories.text = daysList[position].calories.toString()
@@ -58,7 +57,6 @@ class DaysAdapter(val context: Context, val daysList: ArrayList<Day>) : BaseAdap
     }
 
     private class ViewHolder(view: View?) {
-        val id: TextView = view?.findViewById<TextView>(R.id.dayId) as TextView
         val date: TextView = view?.findViewById<TextView>(R.id.dayDate) as TextView
         val steps: TextView = view?.findViewById<TextView>(R.id.daySteps) as TextView
         val calories: TextView = view?.findViewById<TextView>(R.id.dayCalories) as TextView
